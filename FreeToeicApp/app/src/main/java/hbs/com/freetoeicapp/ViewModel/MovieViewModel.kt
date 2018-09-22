@@ -1,8 +1,7 @@
 package hbs.com.freetoeicapp.ViewModel
 
-
-
 /*
+
 class MovieViewModel() : BaseObservable() {
     var movieConnectService: MovieConnectService?= null
     var movieRecyclerItemBinding: MovieRecyclerItemBinding? = null
@@ -28,4 +27,5 @@ class MovieViewModel() : BaseObservable() {
     fun getMovies():ArrayList<MovieViewModel>{
         return movies
     }
-}*/
+}
+*/
