@@ -1,71 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-</LinearLayout>
-<!--
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-  &lt;!&ndash;  <data>
-        <import type="android.view.View"/>
-    <variable
-        name="detail_movie"
-        type="hbs.com.freetoeicapp.Model.Movie" />
-    </data>
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        android:id="@+id/searchLL">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/positionTV"
+            android:textSize="24sp"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:id="@+id/movieTitleTV"
+            android:gravity="center"
+            android:textSize="24sp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="196dp"
+        android:orientation="horizontal"
+        android:id="@+id/expanded_layout"
+        android:visibility="gone">
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"/>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:id="@+id/movieImageView"/>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="@{detail_movie}"
-                android:textSize="14sp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:orientation="vertical"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <RatingBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:numStars="5"
-                        android:rating="@{detail_movie > 0 ? detail_movie.movieRating : 0}"
-                        android:stepSize="0.5" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@{detail_movie.movieRating}"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="평가하기"/>
-                </LinearLayout>
-
-            </LinearLayout>
+                android:id="@+id/pubDateTV"/>
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:id="@+id/movieRatingBar"
+                android:numStars="5"
+                android:max="5"
+                android:clickable="false"/>
         </LinearLayout>
-    </LinearLayout>&ndash;&gt;
-</layout>-->
+    </LinearLayout>
+</LinearLayout>

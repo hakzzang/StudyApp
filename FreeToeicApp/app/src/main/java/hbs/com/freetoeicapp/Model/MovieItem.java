@@ -1,46 +1,97 @@
 package hbs.com.freetoeicapp.Model;
 
-import android.databinding.ObservableField;
-
 import com.google.gson.annotations.SerializedName;
 
 public class MovieItem {
-    @SerializedName("userRating")
-    public ObservableField<Integer> movieRating = new ObservableField<>();
     @SerializedName("title")
-    public ObservableField<String> movieName = new ObservableField<>();
+    String title;
+    @SerializedName("link")
+    String link;
     @SerializedName("image")
-    public ObservableField<String> movieImageUrl = new ObservableField<>();
+    String image;
+    @SerializedName("subtitle")
+    String subtitle;
     @SerializedName("pubDate")
-    public ObservableField<String> pubDate = new ObservableField<>();
+    String pubDate;
+    @SerializedName("director")
+    String director;
+    @SerializedName("actor")
+    String actor;
+    @SerializedName("userRating")
+    String userRating;
 
-    public MovieItem(int movieRating, String movieName, String movieImageUrl, String pubDate) {
-        this.movieRating.set(movieRating);
-        this.movieName.set(movieName);
-        this.movieImageUrl.set(movieImageUrl);
-        this.pubDate.set(pubDate);
+    public MovieItem(String title, String link, String image, String subtitle, String pubDate, String director, String actor, String userRating) {
+        this.title = title;
+        this.link = link;
+        this.image = image;
+        this.subtitle = subtitle;
+        this.pubDate = pubDate;
+        this.director = director;
+        this.actor = actor;
+        this.userRating = userRating;
     }
 
-    public MovieItem(MovieItem movie){
-        this.movieRating.set(movie.getMovieRating());
-        this.movieName.set(movie.getMovieName());
-        this.movieImageUrl.set(movie.getMovieImageUrl());
-        this.pubDate.set(movie.getPubDate());
+    public String getTitle() {
+        return title;
     }
 
-    public Integer getMovieRating() {
-        return movieRating.get();
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getMovieName() {
-        return movieName.get();
+    public String getLink() {
+        return link;
     }
 
-    public String getMovieImageUrl() {
-        return movieImageUrl.get();
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 
     public String getPubDate() {
-        return pubDate.get();
+        return pubDate;
+    }
+
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
+
+    public String getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(String userRating) {
+        this.userRating = userRating;
     }
 }
