@@ -1,31 +1,29 @@
 package hbs.com.freetoeicapp.ViewModel
 
-/*
+import android.databinding.BaseObservable
+import android.view.View
+import com.bumptech.glide.RequestManager
+import hbs.com.freetoeicapp.Activity.MainActivity
+import hbs.com.freetoeicapp.Model.MovieItem
+import hbs.com.freetoeicapp.databinding.MovieRecyclerItemBinding
 
-class MovieViewModel() : BaseObservable() {
-    var movieConnectService: MovieConnectService?= null
-    var movieRecyclerItemBinding: MovieRecyclerItemBinding? = null
-    val movies = ObservableArrayList<Movie>()
-
-
-
-    fun onCreate(){
-        movieConnectService = MovieConnectService.movieRetrofit.create(MovieConnectService::class.java)
-        val movieApiCall: Call<List<Movie>> = movieConnectService!!.movieContributors("v1","search","movie.json")
-        movieApiCall.enqueue(object : Callback<List<Movie>> {
-            override fun onFailure(call: Call<List<Movie>>?, t: Throwable?) {
-                Log.d("ERROR", t.toString())
-            }
-
-            override fun onResponse(call: Call<List<Movie>>?, response: Response<List<Movie>>?) {
-                val movieDatas = response!!.body()
-                movies.add(movieDatas)
-            }
-        })
+class MovieViewModel(private var movieItem: MovieItem?, movieRecyclerItemBinding:MovieRecyclerItemBinding) : BaseObservable() {
+    val movieItemBinding = movieRecyclerItemBinding
+    fun getMovieData(): MovieItem? {
+        return movieItem
     }
 
-    fun getMovies():ArrayList<MovieViewModel>{
-        return movies
+    fun onCreate(itemPosition:Int, mRequestManager:RequestManager){
+        movieItemBinding.positionTV.text = (itemPosition+1).toString()
+        movieItemBinding.searchLL.setOnClickListener {
+            _ ->
+            if(MainActivity.tempItemLayout !=null){
+                MainActivity.tempItemLayout!!.visibility = View.GONE
+            }
+            movieItemBinding.expandedLayout.visibility = View.VISIBLE
+            mRequestManager.load(movieItem!!.image).into(movieItemBinding.movieImageView)
+            movieItemBinding.movieRatingBar.rating = (movieItem!!.userRating.toFloat() / 2.0).toFloat()
+            MainActivity.tempItemLayout = movieItemBinding.expandedLayout
+        }
     }
 }
-*/

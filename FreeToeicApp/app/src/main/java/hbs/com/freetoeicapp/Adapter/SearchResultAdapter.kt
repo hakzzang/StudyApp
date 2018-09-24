@@ -1,59 +1,67 @@
 package hbs.com.freetoeicapp.Adapter
 
 import android.content.Context
+import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RatingBar
-import android.widget.TextView
 import com.bumptech.glide.RequestManager
-import hbs.com.freetoeicapp.Activity.MainActivity.Companion.tempItemLayout
+import hbs.com.freetoeicapp.Model.BoxOfficeItem
 import hbs.com.freetoeicapp.Model.MovieItem
 import hbs.com.freetoeicapp.R
+import hbs.com.freetoeicapp.Utils.MainUtils.BOX_OFFICE_CLASS_TYPE
+import hbs.com.freetoeicapp.Utils.MainUtils.MOVIE_CLASS_TYPE
+import hbs.com.freetoeicapp.ViewModel.BoxOfficeViewModel
+import hbs.com.freetoeicapp.ViewModel.MovieViewModel
+import hbs.com.freetoeicapp.databinding.MovieRecyclerItemBinding
+import hbs.com.freetoeicapp.databinding.OfficeRecyclerItemBinding
 
-class SearchResultAdapter(mContext: Context, arrayList:ArrayList<MovieItem>, requestManager:RequestManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SearchResultAdapter(mContext: Context, arrayList:ArrayList<*>, requestManager:RequestManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var context:Context? = mContext
-    var searchItemList:ArrayList<MovieItem>? = arrayList
+    var searchItemList: ArrayList<*> = arrayList
     var mRequestManager:RequestManager = requestManager
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.movie_recycler_item,parent,false)
+        if(viewType== MOVIE_CLASS_TYPE){
+            val itemBinding:MovieRecyclerItemBinding=DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.movie_recycler_item, parent, false)
+            return MovieBindingHolder(itemBinding)
+        }else if(viewType== BOX_OFFICE_CLASS_TYPE){
+            val itemBinding:OfficeRecyclerItemBinding=DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.office_recycler_item, parent, false)
+            return OfficeBindingHolder(itemBinding)
+        }
 
-        return SearchItemHolder(view)
+        val itemBinding:OfficeRecyclerItemBinding=DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.office_recycler_item, parent, false)
+        return OfficeBindingHolder(itemBinding)
+
     }
 
     override fun getItemCount(): Int {
-        return searchItemList!!.size
+        return searchItemList.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val movieItem = searchItemList!!.get(position)
-        if(holder is SearchItemHolder){
-            holder.positionTV.text = (position+1).toString()
-            holder.movieTitleTV.text = movieItem.title
-            holder.searchLL.setOnClickListener {
-                _ ->
-                if(tempItemLayout!=null){
-                    tempItemLayout!!.visibility = View.GONE
-                }
-                holder.expanded_layout.visibility = View.VISIBLE
-                mRequestManager.load(movieItem.image).into(holder.movieImageView)
-                holder.pubDateTV.text = movieItem.pubDate
-                holder.movieRatingBar.rating = (movieItem.userRating.toFloat() / 2.0).toFloat()
-                tempItemLayout = holder.expanded_layout
-            }
+        if(holder is MovieBindingHolder){
+            val movieItem = searchItemList.get(position) as MovieItem
+            holder.binding.movieViewModel = MovieViewModel(movieItem = movieItem, movieRecyclerItemBinding = holder.binding)
+            holder.binding.movieViewModel!!.onCreate(position,mRequestManager)
+        }
+
+        if(holder is OfficeBindingHolder){
+            val officeItem= searchItemList.get(position) as BoxOfficeItem
+            holder.binding.officeViewModel = BoxOfficeViewModel(officeItem, holder.binding)
+            holder.binding.officeViewModel!!.onCreate(position,mRequestManager)
         }
     }
 
-    class SearchItemHolder(mItemView:View): RecyclerView.ViewHolder(mItemView){
-        var positionTV: TextView = mItemView.findViewById(R.id.positionTV)
-        var movieTitleTV: TextView = mItemView.findViewById(R.id.movieTitleTV)
-        var movieImageView: ImageView = mItemView.findViewById(R.id.movieImageView)
-        var searchLL : LinearLayout = mItemView.findViewById(R.id.searchLL)
-        var expanded_layout : LinearLayout = mItemView.findViewById(R.id.expanded_layout)
-        var pubDateTV: TextView = mItemView.findViewById(R.id.pubDateTV)
-        var movieRatingBar: RatingBar = mItemView.findViewById(R.id.movieRatingBar)
+    override fun getItemViewType(position: Int): Int {
+        if(searchItemList[position] is MovieItem)
+            return MOVIE_CLASS_TYPE
+
+        else if(searchItemList[position] is BoxOfficeItem)
+            return BOX_OFFICE_CLASS_TYPE
+
+        return 0
     }
+
+    class MovieBindingHolder(val binding: MovieRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class OfficeBindingHolder(val binding: OfficeRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
 }
